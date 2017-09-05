@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration
             $table->decimal('lat',11,8);
             $table->decimal('lng',11,8);
             $table->string('address');
+            $table->string('email')->nullable();
             $table->date('startDate');
             $table->date('endDate');
             $table->timestamps();
