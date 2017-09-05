@@ -17,6 +17,7 @@ class RegisterCompanyController extends Controller
 
         $data = $request->json()->all();
 
+        // Define validation rules
         $validation = Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -25,11 +26,13 @@ class RegisterCompanyController extends Controller
             'document' => 'required|string',
             'password' => 'required|string|min:6|confirmed',
         ]);
+
+        // Check server side validation
         if ($validation->fails()) {
             $error = $validation->errors();
             return response()->json($error, 500, [], JSON_NUMERIC_CHECK);
         } else {
-           
+
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -56,8 +59,7 @@ class RegisterCompanyController extends Controller
 
             if ($path) {
                 return response()->json(['path' => $path], 200);
-            }
-            else {
+            } else {
                 return response()->json(['path' => ''], 500);
             }
         }
@@ -74,7 +76,7 @@ class RegisterCompanyController extends Controller
         $stand->user_id = $data['user_id'];
         $stand->status = 1;    // update book flag
         $stand->save();
-        return response()->json(['succus' => true], 200);
+        return response()->json(['success' => true], 200);
     }
 
     /**
@@ -84,11 +86,6 @@ class RegisterCompanyController extends Controller
     public function getBookedStand($user_id)
     {
         $user = User::where('id', $user_id)->with('stands.event')->first();
-        
-        /*foreach($user->stands as $stand) {
-            $stand->event = $stand->event;
-        }*/
-
         return response()->json($user, 200, [], JSON_NUMERIC_CHECK);
     }
 }

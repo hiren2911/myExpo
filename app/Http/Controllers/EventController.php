@@ -15,7 +15,7 @@ class EventController extends Controller
     public function index()
     {
         // Fetch all events which are not ended yet
-        $eventlist = Event::where('endDate', '>', NOW())->get();
+        $eventlist = Event::where('endDate', '>=', date('Y-m-d'))->get();
         return response()->json($eventlist, 200, [], JSON_NUMERIC_CHECK);
     }
 
@@ -29,12 +29,9 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        $event = Event::where('id', $id)->with('stands.user')->first();
         // Fetch events with User details
-        // foreach($event->stands as $stand) {
-        //     $stand->user = $stand->user;
-        // }
-
+        $event = Event::where('id', $id)->with('stands.user')->first();
+        
         return response()->json($event, 200, [], JSON_NUMERIC_CHECK);
     }
 }
