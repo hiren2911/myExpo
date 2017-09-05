@@ -12,16 +12,6 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-
-Route::get('/getFile', function(Request $request) {
-    // dd(request()->input('a'));
-    $filename = request()->input('a');
-    $file = Storage::disk('local')->get($filename);
-    header('Content-Type', 'image/jpg');
-    echo $file;
- 
-		// return (new Response($file, 200 ));
+    response()->redirectTo('./dist/index.html')->send();
+    // return view('welcome');
 });
